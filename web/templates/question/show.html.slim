@@ -1,0 +1,13 @@
+h2 Show question
+
+ul
+  li
+    strong Text:&nbsp;
+    = @question.text
+  li
+    strong Talk:&nbsp;
+    = @question.talk_id
+
+= link "Edit", to: question_path(@conn, :edit, @question)
+| &nbsp;
+= link "Back", to: question_path(@conn, :index)

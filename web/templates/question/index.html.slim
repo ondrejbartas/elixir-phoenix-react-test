@@ -1,0 +1,21 @@
+h2 Listing questions
+
+table.table
+  thead
+    tr
+      th Text
+      th Talk
+      th
+  tbody
+    = for question <- @questions do
+      tr
+        td= question.text
+        td= question.talk.name
+        td class="text-right"
+          = link "Show", to: question_path(@conn, :show, question), class: "btn btn-default btn-xs"
+          | &nbsp;
+          = link "Edit", to: question_path(@conn, :edit, question), class: "btn btn-default btn-xs"
+          | &nbsp;
+          = link "Delete", to: question_path(@conn, :delete, question), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs"
+
+= link "New question", to: question_path(@conn, :new)

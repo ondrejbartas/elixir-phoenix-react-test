@@ -3,6 +3,7 @@ defmodule Questhor.Talk do
 
   schema "talks" do
     field :name, :string
+    has_many :questions, Questhor.Question
 
     timestamps()
   end
@@ -14,5 +15,6 @@ defmodule Questhor.Talk do
     struct
     |> cast(params, [:name])
     |> validate_required([:name])
+    |> validate_length(:name, min: 2)
   end
 end

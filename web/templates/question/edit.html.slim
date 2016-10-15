@@ -1,0 +1,5 @@
+h2 Edit question
+
+= render "form.html", changeset: @changeset, action: question_path(@conn, :update, @question)
+
+= link "Back", to: question_path(@conn, :index)

@@ -3,7 +3,7 @@ defmodule Questhor.TalkControllerTest do
 
   alias Questhor.Talk
   @valid_attrs %{name: "some content"}
-  @invalid_attrs %{}
+  @invalid_attrs %{name: "X"}
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, talk_path(conn, :index)

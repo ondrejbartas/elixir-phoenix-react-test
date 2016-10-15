@@ -18,6 +18,7 @@ defmodule Questhor.Router do
 
     get "/", PageController, :index
     resources "/talks", TalkController
+    resources "/questions", QuestionController
   end
 
 
