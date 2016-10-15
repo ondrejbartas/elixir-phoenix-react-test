@@ -39,7 +39,8 @@ defmodule Questhor.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:phoenix_slime, "~> 0.8.0"}
+      {:phoenix_slime, "~> 0.8.0"},
+      {:mix_test_watch, "~> 0.2", only: :dev}
     ]
   end
 

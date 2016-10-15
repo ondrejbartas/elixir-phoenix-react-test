@@ -17,8 +17,9 @@ defmodule Questhor.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    get "/talks", TalksController, :index
+    resources "/talks", TalkController
   end
+
 
   # Other scopes may use custom stacks.
   # scope "/api", Questhor do

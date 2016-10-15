@@ -1,0 +1,10 @@
+h2 Show talk
+
+ul
+  li
+    strong Name:&nbsp;
+    = @talk.name
+
+= link "Edit", to: talk_path(@conn, :edit, @talk)
+| &nbsp;
+= link "Back", to: talk_path(@conn, :index)

@@ -1,0 +1,5 @@
+h2 New talk
+
+= render "form.html", changeset: @changeset, action: talk_path(@conn, :create)
+
+= link "Back", to: talk_path(@conn, :index)

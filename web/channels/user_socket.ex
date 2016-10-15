@@ -2,7 +2,7 @@ defmodule Questhor.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", Questhor.RoomChannel
+  channel "talk:*", Questhor.TalkChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
