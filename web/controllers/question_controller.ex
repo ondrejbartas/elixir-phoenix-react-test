@@ -18,7 +18,8 @@ defmodule Questhor.QuestionController do
     changeset = Question.changeset(%Question{}, question_params)
 
     case Repo.insert(changeset) do
-      {:ok, _question} ->
+      {:ok, question} ->
+        QuestionChannel.broadcast_change(question)
         conn
         |> put_flash(:info, "Question created successfully.")
         |> redirect(to: question_path(conn, :index))

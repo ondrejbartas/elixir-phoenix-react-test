@@ -19,8 +19,13 @@ defmodule Questhor.QuestionChannel do
 
   def broadcast_change(question) do
     payload = %{
-      "text" => question.text,
-      "id" => question.id
+      "type" => "UPDATE_QUESTION",
+      "payload" => %{
+        "id" => question.id,
+        "talk_id" => question.talk_id,
+        "text" => question.text,
+        "likes" => 15
+      }
     }
     Questhor.Endpoint.broadcast("question:lobby", "change", payload)
   end

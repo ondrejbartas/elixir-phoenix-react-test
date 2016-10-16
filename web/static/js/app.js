@@ -24,7 +24,53 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App.react'
 
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { fromJS } from 'immutable'
+
+const reducer = (state = {}, action) => {
+  if (action.type === 'UPDATE_QUESTION')
+
+    return state.setIn(['talks', action.payload.talk_id, 'questions', action.payload.id], fromJS(action.payload))
+
+  return state
+}
+
+const store = createStore(reducer, fromJS({
+  talks: {
+    '1': {
+      name: 'Super duper',
+      questions: {
+        '1': {id: 1, text: 'What', likes: 2}
+      }
+    },
+    '2': {
+      name: 'Dakooo',
+      questions: {
+        '2': {id: 2, text: 'heel1', likes: 5},
+        '3': {id: 3, text: 'heel2', likes: 10},
+        '4': {id: 4, text: 'heel3', likes: 8},
+      }
+    },
+    '3': {
+      name: 'Super Duperrrr',
+      questions: {}
+    }
+  }
+}))
+
+let channel = socket.channel("question:lobby", {})
+channel.join()
+  .receive("ok", resp => { console.log("Joined successfully Questions:lobby", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+channel.on("change", question => {
+  console.log('Dispatching', question)
+  store.dispatch(question)
+})
+
+
 ReactDOM.render(
-  <App />,
+  <Provider store={store}><App /></Provider>,
   document.getElementById('react-app')
 )
