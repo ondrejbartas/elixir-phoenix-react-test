@@ -7,6 +7,10 @@
 <a href="/questions"> Questions</a>
 <a href="/users"> Users</a>
 
+<hr />
+<div id="react-app">React app</div>
+<hr />
+
 <div class="row marketing">
   <div class="col-lg-6">
     <h4>Resources</h4>
