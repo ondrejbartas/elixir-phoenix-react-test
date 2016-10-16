@@ -1,0 +1,16 @@
+h2 Show user
+
+ul
+  li
+    strong Name:&nbsp;
+    = @user.name
+  li
+    strong Email:&nbsp;
+    = @user.email
+  li
+    strong Token:&nbsp;
+    = @user.token
+
+= link "Edit", to: user_path(@conn, :edit, @user)
+| &nbsp;
+= link "Back", to: user_path(@conn, :index)

@@ -2,6 +2,7 @@ defmodule Questhor.QuestionController do
   use Questhor.Web, :controller
 
   alias Questhor.Question
+  alias Questhor.QuestionChannel
 
   def index(conn, _params) do
     questions = Repo.all(Question) |> Repo.preload(:talk)
@@ -34,6 +35,7 @@ defmodule Questhor.QuestionController do
   def edit(conn, %{"id" => id}) do
     question = Repo.get!(Question, id)
     changeset = Question.changeset(question)
+
     render(conn, "edit.html", question: question, changeset: changeset)
   end
 
@@ -43,6 +45,7 @@ defmodule Questhor.QuestionController do
 
     case Repo.update(changeset) do
       {:ok, question} ->
+        QuestionChannel.broadcast_change(question)
         conn
         |> put_flash(:info, "Question updated successfully.")
         |> redirect(to: question_path(conn, :show, question))

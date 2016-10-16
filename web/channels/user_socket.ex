@@ -3,6 +3,7 @@ defmodule Questhor.UserSocket do
 
   ## Channels
   channel "talk:*", Questhor.TalkChannel
+  channel "question:*", Questhor.QuestionChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
