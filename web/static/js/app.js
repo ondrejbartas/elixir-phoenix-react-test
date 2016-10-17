@@ -28,34 +28,49 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import { fromJS } from 'immutable'
 
-const reducer = (state = {}, action) => {
-  if (action.type === 'UPDATE_QUESTION')
+const formatQuestions = (questions) => (
+  questions.reduce(
+    (acc, q) => ({ ...acc, [String(q.id)]: q}),
+    {}
+  )
+)
 
-    return state.setIn(['talks', action.payload.talk_id, 'questions', action.payload.id], fromJS(action.payload))
+const reducer = (state = {}, action) => {
+  console.log(state)
+  console.log(action)
+  if (action.type === 'UPDATE_QUESTION')
+    return state.setIn(['talks', String(action.payload.talk_id), 'questions', String(action.payload.id)], fromJS(action.payload))
+
+  if (action.type === 'DATA_RELOD')
+    return action.payload.reduce(
+      (acc, { id, questions, ...rest }) =>
+        acc.setIn(['talks', String(id)], fromJS({ id, questions: formatQuestions(questions), ...rest })),
+      state
+    )
 
   return state
 }
 
 const store = createStore(reducer, fromJS({
   talks: {
-    '1': {
-      name: 'Super duper',
-      questions: {
-        '1': {id: 1, text: 'What', likes: 2}
-      }
-    },
-    '2': {
-      name: 'Dakooo',
-      questions: {
-        '2': {id: 2, text: 'heel1', likes: 5},
-        '3': {id: 3, text: 'heel2', likes: 10},
-        '4': {id: 4, text: 'heel3', likes: 8},
-      }
-    },
-    '3': {
-      name: 'Super Duperrrr',
-      questions: {}
-    }
+    // '1': {
+    //   name: 'Super duper',
+    //   questions: {
+    //     '1': {id: 1, text: 'What', likes: 2}
+    //   }
+    // },
+    // '2': {
+    //   name: 'Dakooo',
+    //   questions: {
+    //     '2': {id: 2, text: 'heel1', likes: 5},
+    //     '3': {id: 3, text: 'heel2', likes: 10},
+    //     '4': {id: 4, text: 'heel3', likes: 8},
+    //   }
+    // },
+    // '3': {
+    //   name: 'Super Duperrrr',
+    //   questions: {}
+    // }
   }
 }))
 
@@ -69,6 +84,10 @@ channel.on("change", question => {
   store.dispatch(question)
 })
 
+
+fetch('/api/talks')
+  .then(r => r.json())
+  .then(({ data: payload }) => store.dispatch({type: 'DATA_RELOD', payload}))
 
 ReactDOM.render(
   <Provider store={store}><App /></Provider>,

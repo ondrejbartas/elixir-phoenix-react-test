@@ -6,7 +6,7 @@ defmodule Questhor.QuestionController do
 
   def index(conn, _params) do
     questions = Repo.all(Question) |> Repo.preload(:talk)
-    render(conn, "index.html", questions: questions)
+    render(conn, :index, questions: questions)
   end
 
   def new(conn, _params) do
@@ -30,7 +30,7 @@ defmodule Questhor.QuestionController do
 
   def show(conn, %{"id" => id}) do
     question = Repo.get!(Question, id)
-    render(conn, "show.html", question: question)
+    render(conn, :show, question: question)
   end
 
   def edit(conn, %{"id" => id}) do

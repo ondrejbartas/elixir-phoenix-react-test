@@ -6,6 +6,10 @@
     = label f, :text, class: "control-label"
     = text_input f, :text, class: "form-control"
     = error_tag f, :text
+  .form-group
+    = label f, :likes, class: "control-label"
+    = text_input f, :likes, class: "form-control"
+    = error_tag f, :likes
   = if Enum.count(talks) > 0 do
     .form-group
       = label f, :talk_id, class: "control-label"

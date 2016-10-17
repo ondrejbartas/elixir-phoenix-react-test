@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default ({ text, likes }) => (
-  <div>
-    {text}
-    <div style={{color: 'green'}}>{likes}</div>
-  </div>
-)
+export default class Question extends Component {
+
+  render() {
+    const { text, likes } = this.props;
+
+    return (
+      <div>
+        {text}
+        <div style={{color: 'green'}}>{likes}</div>
+      </div>
+    )
+  }
+}

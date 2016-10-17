@@ -22,6 +22,12 @@ defmodule Questhor.Router do
     resources "/users", UserController
   end
 
+  scope "/api", Questhor do
+    pipe_through :api
+    resources "/talks", TalkController, except: [:new, :edit]
+    resources "/questions", QuestionController, except: [:new, :edit]
+  end
+
 
   # Other scopes may use custom stacks.
   # scope "/api", Questhor do

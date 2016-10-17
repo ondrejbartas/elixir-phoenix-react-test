@@ -1,11 +1,13 @@
 defmodule Questhor.TalkController do
   use Questhor.Web, :controller
 
+  plug :action
+
   alias Questhor.Talk
 
   def index(conn, _params) do
-    talks = Repo.all(Talk)
-    render(conn, "index.html", talks: talks)
+    talks = Repo.all(Talk) |> Repo.preload(:questions)
+    render(conn, :index, talks: talks)
   end
 
   def new(conn, _params) do
@@ -27,8 +29,8 @@ defmodule Questhor.TalkController do
   end
 
   def show(conn, %{"id" => id}) do
-    talk = Repo.get!(Talk, id)
-    render(conn, "show.html", talk: talk)
+    talk = Repo.get!(Talk, id) |> Repo.preload(:questions)
+    render(conn, :show, talk: talk)
   end
 
   def edit(conn, %{"id" => id}) do

@@ -1,11 +1,11 @@
 defmodule Questhor.QuestionChannel do
   use Questhor.Web, :channel
 
-  def join("question:lobby", payload, socket) do
+  def join("question:lobby", _, socket) do
     {:ok, socket}
   end
 
-  def join("question:" <> question_id, payload, socket) do
+  def join("question:" <> question_id, _, socket) do
     {:ok, "Joined question:#{question_id}", socket}
   end
 
@@ -24,7 +24,7 @@ defmodule Questhor.QuestionChannel do
         "id" => question.id,
         "talk_id" => question.talk_id,
         "text" => question.text,
-        "likes" => 15
+        "likes" => question.likes
       }
     }
     Questhor.Endpoint.broadcast("question:lobby", "change", payload)
