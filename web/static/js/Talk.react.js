@@ -1,14 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes as RPT } from 'react';
 import Question from './Question.react';
 import { Map } from 'immutable';
 import FlipMove from 'react-flip-move';
 
 export default class Talk extends Component {
+
+  static propTypes = {
+    name: RPT.string,
+    questions: RPT.object
+  }
+
   renderQ(q) {
-    console.log('tip', q.get('likes'))
     return (
       <Question question={q} key={q.get('id')} text={q.get('text')} likes={q.get('likes')} />
-    )
+    );
   }
 
   render() {
@@ -27,6 +32,6 @@ export default class Talk extends Component {
           }
         </FlipMove>
       </div>
-    )
+    );
   }
 }

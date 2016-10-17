@@ -18,38 +18,39 @@
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import socket from "./socket"
+import socket from './socket';
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App.react'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App.react';
 
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import { fromJS } from 'immutable'
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { fromJS } from 'immutable';
 
 const formatQuestions = (questions) => (
   questions.reduce(
-    (acc, q) => ({ ...acc, [String(q.id)]: q}),
+    (acc, q) => ({ ...acc, [String(q.id)]: q }),
     {}
   )
-)
+);
 
 const reducer = (state = {}, action) => {
-  console.log(state)
-  console.log(action)
   if (action.type === 'UPDATE_QUESTION')
-    return state.setIn(['talks', String(action.payload.talk_id), 'questions', String(action.payload.id)], fromJS(action.payload))
+    return state.setIn(
+      ['talks', String(action.payload.talk_id), 'questions', String(action.payload.id)],
+      fromJS(action.payload)
+    );
 
   if (action.type === 'DATA_RELOD')
     return action.payload.reduce(
       (acc, { id, questions, ...rest }) =>
         acc.setIn(['talks', String(id)], fromJS({ id, questions: formatQuestions(questions), ...rest })),
       state
-    )
+    );
 
-  return state
-}
+  return state;
+};
 
 const store = createStore(reducer, fromJS({
   talks: {
@@ -72,24 +73,24 @@ const store = createStore(reducer, fromJS({
     //   questions: {}
     // }
   }
-}))
+}));
 
-let channel = socket.channel("question:lobby", {})
+const channel = socket.channel('question:lobby', {});
+
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully Questions:lobby", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+  .receive('ok', resp => console.log('Joined successfully Questions:lobby', resp)) // eslint-disable-line no-console
+  .receive('error', resp => console.log('Unable to join', resp)); // eslint-disable-line no-console
 
-channel.on("change", question => {
-  console.log('Dispatching', question)
-  store.dispatch(question)
-})
+channel.on('change', question => {
+  store.dispatch(question);
+});
 
 
 fetch('/api/talks')
   .then(r => r.json())
-  .then(({ data: payload }) => store.dispatch({type: 'DATA_RELOD', payload}))
+  .then(({ data: payload }) => store.dispatch({ type: 'DATA_RELOD', payload }));
 
 ReactDOM.render(
   <Provider store={store}><App /></Provider>,
   document.getElementById('react-app')
-)
+);
