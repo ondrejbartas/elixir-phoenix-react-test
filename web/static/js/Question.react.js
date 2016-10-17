@@ -10,7 +10,8 @@ export default class Question extends Component {
     text: RPT.string,
     upVote: RPT.func,
     likes: RPT.object,
-    likesCount: RPT.number
+    likesCount: RPT.number,
+    isLoggedIn: RPT.bool
   }
 
   upVote() {
@@ -42,13 +43,13 @@ export default class Question extends Component {
   }
 
   render() {
-    const { text, likesCount, likes } = this.props;
+    const { text, isLoggedIn, likesCount, likes } = this.props;
 
     return (
       <div>
         {text}
         <div style={{ color: 'green' }}>{likesCount}</div>
-        <button disabled={this.alreadyVoted()} onClick={this.upVote.bind(this)}> Like + 1</button>
+        <button disabled={!isLoggedIn || this.alreadyVoted()} onClick={this.upVote.bind(this)}> Like + 1</button>
         {likes.map(l =>
           <img
             src={`https://twitter.com/${l.get('user_name')}/profile_image?size=mini`}

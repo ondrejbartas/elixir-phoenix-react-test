@@ -19,9 +19,10 @@ class App extends Component {
         <h1>Questhor 22 {isLoggedIn}</h1>
         {!isLoggedIn && <User name={user.get('name')} />}
         {isLoggedIn && <span>Logged in as {user.get('name')}</span>}
-        {isLoggedIn && talks.map((talk) =>
+        {talks.map((talk) =>
           <Talk
             key={talk.get('name')}
+            isLoggedIn={isLoggedIn}
             talkId={talk.get('id')}
             name={talk.get('name')}
             newQuestionText={newQuestions.get(String(talk.get('id')))}

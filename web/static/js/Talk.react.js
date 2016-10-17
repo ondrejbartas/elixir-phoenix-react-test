@@ -10,22 +10,24 @@ export default class Talk extends Component {
     name: RPT.string,
     talkId: RPT.number,
     questions: RPT.object,
-    newQuestionText: RPT.string
+    newQuestionText: RPT.string,
+    isLoggedIn: RPT.bool
   }
 
   renderQ(q) {
+    const { isLoggedIn } = this.props;
     return (
-      <Question question={q} key={q.get('id')} id={q.get('id')} text={q.get('text')} likes={q.get('likes')} likesCount={q.get('likesCount')} />
+      <Question isLoggedIn={isLoggedIn} question={q} key={q.get('id')} id={q.get('id')} text={q.get('text')} likes={q.get('likes')} likesCount={q.get('likesCount')} />
     );
   }
 
   render() {
-    const { name, questions, talkId, newQuestionText } = this.props;
+    const { name, isLoggedIn, questions, talkId, newQuestionText } = this.props;
 
     return (
       <div>
         <h2>{name}</h2>
-        <NewQuestion talkId={talkId} text={newQuestionText} />
+        {isLoggedIn && <NewQuestion talkId={talkId} text={newQuestionText} />}
         <FlipMove>
           {
             (questions || Map())
