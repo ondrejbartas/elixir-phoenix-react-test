@@ -6,7 +6,7 @@ defmodule Questhor.TalkController do
   alias Questhor.Talk
 
   def index(conn, _params) do
-    talks = Repo.all(Talk) |> Repo.preload(:questions)
+    talks = Repo.all(Talk) |> Repo.preload([questions: :likes])
     render(conn, :index, talks: talks)
   end
 
@@ -29,7 +29,7 @@ defmodule Questhor.TalkController do
   end
 
   def show(conn, %{"id" => id}) do
-    talk = Repo.get!(Talk, id) |> Repo.preload(:questions)
+    talk = Repo.get!(Talk, id) |> Repo.preload([questions: :likes])
     render(conn, :show, talk: talk)
   end
 

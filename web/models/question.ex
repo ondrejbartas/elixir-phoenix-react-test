@@ -3,9 +3,8 @@ defmodule Questhor.Question do
 
   schema "questions" do
     field :text, :string
-    field :likes, :integer
     belongs_to :talk, Questhor.Talk
-
+    has_many :likes, Questhor.Like
     timestamps()
   end
 
@@ -14,7 +13,7 @@ defmodule Questhor.Question do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:text, :talk_id, :likes])
+    |> cast(params, [:text, :talk_id])
     |> validate_required([:text, :talk_id])
     |> validate_length(:text, min: 2)
   end

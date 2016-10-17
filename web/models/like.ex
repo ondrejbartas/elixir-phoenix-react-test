@@ -2,8 +2,8 @@ defmodule Questhor.Like do
   use Questhor.Web, :model
 
   schema "likes" do
-    field :user_id, :integer
-    field :question_id, :integer
+    belongs_to :user, Questhor.User
+    belongs_to :question, Questhor.Question
 
     timestamps()
   end

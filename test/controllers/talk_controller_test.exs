@@ -6,7 +6,7 @@ defmodule Questhor.TalkControllerTest do
   @invalid_attrs %{name: "X"}
 
   test "lists all entries on index", %{conn: conn} do
-    conn = get conn, talk_path(conn, :index)
+    conn = get conn, talk_path(conn, :index, format: "html")
     assert html_response(conn, 200) =~ "Listing talks"
   end
 

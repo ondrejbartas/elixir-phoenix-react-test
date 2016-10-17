@@ -8,9 +8,9 @@ defmodule Questhor.LikeController do
 
     case Repo.insert(changeset) do
       {:ok, like} ->
+        Questhor.QuestionChannel.broadcast_change(Repo.preload(like, :question).question)
         conn
         |> put_status(:created)
-        |> put_resp_header("location", like_path(conn, :show, like))
         |> render("show.json", like: like)
       {:error, changeset} ->
         conn

@@ -5,7 +5,7 @@ defmodule Questhor.QuestionController do
   alias Questhor.QuestionChannel
 
   def index(conn, _params) do
-    questions = Repo.all(Question) |> Repo.preload(:talk)
+    questions = Repo.all(Question) |> Repo.preload([:talk, :likes])
     render(conn, :index, questions: questions)
   end
 
@@ -21,8 +21,8 @@ defmodule Questhor.QuestionController do
       {:ok, question} ->
         QuestionChannel.broadcast_change(question)
         conn
-        |> put_flash(:info, "Question created successfully.")
-        |> redirect(to: question_path(conn, :index))
+        |> put_status(:created)
+        |> render(:show, question: question)
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

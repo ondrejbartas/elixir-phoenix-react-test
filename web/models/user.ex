@@ -15,6 +15,6 @@ defmodule Questhor.User do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :email, :token])
-    |> validate_required([:name, :email, :token])
+    |> validate_required([:name])
   end
 end

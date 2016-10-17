@@ -27,6 +27,7 @@ import App from './App.react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { fromJS } from 'immutable';
+import fetch from 'isomorphic-fetch';
 
 const formatQuestions = (questions) => (
   questions.reduce(
@@ -36,6 +37,8 @@ const formatQuestions = (questions) => (
 );
 
 const reducer = (state = {}, action) => {
+  console.log(action); // eslint-disable-line no-console
+
   if (action.type === 'UPDATE_QUESTION')
     return state.setIn(
       ['talks', String(action.payload.talk_id), 'questions', String(action.payload.id)],
@@ -49,6 +52,14 @@ const reducer = (state = {}, action) => {
       state
     );
 
+  if (action.type === 'CHANGE_USER_NAME')
+    return state.setIn(['user', 'name'], action.value);
+
+  if (action.type === 'USER_CREATED')
+    return state.setIn(['user'], fromJS(action.data));
+
+  if (action.type === 'CHANGE_QUESTION_TEXT')
+    return state.setIn(['newQuestions', String(action.talkId)], action.value);
   return state;
 };
 
@@ -72,7 +83,11 @@ const store = createStore(reducer, fromJS({
     //   name: 'Super Duperrrr',
     //   questions: {}
     // }
-  }
+  },
+  user: {
+    name: ''
+  },
+  newQuestions: {}
 }));
 
 const channel = socket.channel('question:lobby', {});

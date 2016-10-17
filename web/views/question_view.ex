@@ -17,8 +17,18 @@ defmodule Questhor.QuestionView do
   end
 
   def render("question.json", %{question: question}) do
-    %{id: question.id,
+    user_ids = Questhor.Repo.preload(question, [likes: :user]).likes
+      |> Enum.sort(&(&1.inserted_at > &2.inserted_at))
+      |> Enum.map(&(%{id: &1.id, user_id: &1.user_id, user_name: &1.user.name}))
+      |> Enum.uniq(&(&1.user_id))
+
+    %{
+      id: question.id,
+      talk_id: question.talk_id,
       text: question.text,
-      likes: question.likes}
+      # likesCount: (Ecto.Model.assoc(question, :likes) |> Repo.aggregate(:count, :id)),
+      likesCount: length(user_ids),
+      likes: user_ids
+    }
   end
 end

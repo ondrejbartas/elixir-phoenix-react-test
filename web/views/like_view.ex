@@ -12,6 +12,7 @@ defmodule Questhor.LikeView do
   def render("like.json", %{like: like}) do
     %{id: like.id,
       user_id: like.user_id,
-      question_id: like.question_id}
+      question_id: like.question_id,
+      question: render_one(Questhor.Repo.preload(like, [question: :likes]).question, Questhor.QuestionView, "question.json")}
   end
 end

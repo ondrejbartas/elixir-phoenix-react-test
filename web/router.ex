@@ -27,6 +27,7 @@ defmodule Questhor.Router do
     resources "/talks", TalkController, except: [:new, :edit]
     resources "/questions", QuestionController, except: [:new, :edit]
     resources "/likes", LikeController, only: [:create, :destroy]
+    resources "/users", UserController, only: [:create]
   end
 
 

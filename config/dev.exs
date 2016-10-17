@@ -41,3 +41,6 @@ config :questhor, Questhor.Repo,
   database: "questhor_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :mix_test_watch,
+  clear: true
