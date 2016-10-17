@@ -26,6 +26,7 @@ defmodule Questhor.Router do
     pipe_through :api
     resources "/talks", TalkController, except: [:new, :edit]
     resources "/questions", QuestionController, except: [:new, :edit]
+    resources "/likes", LikeController, only: [:create, :destroy]
   end
 
 
